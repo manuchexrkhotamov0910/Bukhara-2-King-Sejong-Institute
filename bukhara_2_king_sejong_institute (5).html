@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bukhara 2 King Sejong Institute - Korean Learning App</title>
+  <style>
+    :root {
+      --sj-blue: #003893;
+      --sj-red: #850020;
+      --sj-dark-navy: #0b2d64;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border-soft: #e2e8f0;
+      --bg-cream: #fff9ea;
+      --shadow-sm: 0 4px 14px rgba(0, 56, 147, 0.08);
+      --shadow-card: 0 12px 30px rgba(0, 56, 147, 0.12);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif; }
+
+    body {
+      min-height: 100vh;
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+      position: relative;
+      background-color: var(--bg-cream);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(248, 182, 45, 0.22) 0%, transparent 40%),
+        radial-gradient(circle at 90% 15%, rgba(133, 0, 32, 0.10) 0%, transparent 35%),
+        radial-gradient(circle at 85% 85%, rgba(0, 56, 147, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 15% 85%, rgba(89, 166, 71, 0.18) 0%, transparent 35%);
+      background-size: cover;
+      background-attachment: fixed;
+    }
+
+    /* Фоновая векторная иллюстрация */
+    .bg-illustration {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.88;
+    }
+
+    .app-container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1080px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* 1. ТОЧНАЯ ШАПКА ПО СКРИНШОТУ */
+    .header-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 24px;
+      padding: 16px 22px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    /* Официальный логотип Седжон */
+    .logo-badge {
+      width: 76px;
+      height: 76px;
+      background: #ffffff;
+      border-radius: 18px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      flex-shrink: 0;
+    }
+
+    .badge-top-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+
+    /* Розовая плашка с бордовым текстом */
+    .badge-pill-red {
+      background: #ffe4e6;
+      border: 1px solid #fecdd3;
+      color: #9f1239;
+      font-size: 0.78rem;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 8px;
+      letter-spacing: 0.2px;
+    }
+
+    .institute-sublabel {
+      font-size: 0.8rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .institute-title {
+      font-size: 1.55rem;
+      font-weight: 900;
+      color: var(--sj-blue);
+      letter-spacing: -0.6px;
+      line-height: 1.15;
+    }
+
+    .curriculum-desc {
+      font-size: 0.82rem;
+      color: #64748b;
+      font-weight: 600;
+      margin-top: 3px;
+    }
+
+    /* Правый блок панели по скриншоту */
+    .header-right {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 20px;
+      padding: 10px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      align-items: flex-end;
+    }
+
+    .controls-row-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .lang-capsule {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 999px;
+      padding: 3px 4px;
+      display: inline-flex;
+      gap: 2px;
+    }
+
+    .lang-chip {
+      border: none;
+      background: transparent;
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #64748b;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s ease;
+    }
+
+    .lang-chip.active {
+      background: #ffffff;
+      color: var(--sj-blue);
+      box-shadow: 0 1px 5px rgba(0,0,0,0.12);
+    }
+
+    .stats-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.86rem;
+      font-weight: 800;
+      color: #1e293b;
+    }
+
+    .stat-sep {
+      color: #cbd5e1;
+      font-weight: 400;
+    }
+
+    .btn-hints-pill {
+      background: #ffffff;
+      border: 1.5px solid #1e293b;
+      border-radius: 999px;
+      padding: 4px 13px;
+      font-size: 0.79rem;
+      font-weight: 800;
+      cursor: pointer;
+      color: #1e293b;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+    .btn-hints-pill:hover { background: #f1f5f9; }
+
+    .controls-row-bottom {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-pill-exam {
+      background: #faf5ff;
+      border: 1px solid #e9d5ff;
+      color: #7e22ce;
+      font-size: 0.78rem;
+      font-weight: 800;
+      padding: 4px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+    .btn-pill-exam:hover { background: #f3e8ff; }
+
+    .btn-pill-report {
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      color: #047857;
+      font-size: 0.78rem;
+      font-weight: 800;
+      padding: 4px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+    .btn-pill-report:hover { background: #d1fae5; }
+
+    .icon-action-btn {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .icon-action-btn:hover { transform: scale(1.08); border-color: #94a3b8; }
+
+    /* 2. НАВИГАЦИЯ ПО 7 МОДУЛЯМ */
+    .modules-nav {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 8px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .modules-nav::-webkit-scrollbar { display: none; }
+
+    .mod-tab {
+      padding: 9px 15px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #475569;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .mod-tab:hover { background: #f1f5f9; color: var(--text-main); }
+    .mod-tab.active {
+      background: var(--sj-blue);
+      color: #ffffff;
+      border-color: var(--sj-blue);
+    }
+
+    /* 3. ВЫБОР РЕЖИМА */
+    .formats-bar {
+      display: flex;
+      gap: 8px;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .formats-group {
+      display: flex;
+      gap: 6px;
+      background: #ffffff;
+      padding: 5px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .fmt-btn {
+      padding: 6px 14px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      font-size: 0.81rem;
+      font-weight: 700;
+      cursor: pointer;
+      color: #64748b;
+      transition: all 0.15s;
+    }
+    .fmt-btn:hover { color: var(--text-main); }
+    .fmt-btn.active {
+      background: var(--sj-red);
+      color: #ffffff;
+    }
+
+    /* 4. ОСНОВНАЯ КАРТОЧКА ЗАДАНИЯ */
+    .quiz-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 24px;
+      padding: 36px 24px;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      min-height: 400px;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .question-prompt {
+      font-size: 0.96rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .korean-display {
+      font-size: 2.85rem;
+      font-weight: 900;
+      color: var(--sj-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      min-height: 60px;
+    }
+
+    .audio-btn {
+      background: #ffffff;
+      border: 2px solid #e2e8f0;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.3rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .audio-btn:hover { border-color: var(--sj-blue); transform: scale(1.06); }
+
+    .hint-container {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      padding: 8px 18px;
+      font-size: 0.92rem;
+      color: #1e40af;
+      font-weight: 600;
+      max-width: 82%;
+    }
+
+    /* ВЕКТОРНЫЙ ЦИФЕРБЛАТ ЧАСОВ */
+    .analog-clock {
+      width: 175px;
+      height: 175px;
+      border-radius: 50%;
+      border: 6px solid var(--sj-blue);
+      background: #ffffff;
+      position: relative;
+      margin: 8px auto;
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.08), 0 6px 16px rgba(0,0,0,0.06);
+    }
+    .clock-center {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 12px; height: 12px;
+      background: var(--sj-red);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 5;
+    }
+    .clock-hand {
+      position: absolute;
+      bottom: 50%; left: 50%;
+      transform-origin: 50% 100%;
+      border-radius: 4px;
+    }
+    .hand-hour { width: 5px; height: 46px; background: var(--sj-blue); z-index: 3; }
+    .hand-minute { width: 3px; height: 66px; background: var(--sj-red); z-index: 4; }
+
+    /* ВАРИАНТЫ ОТВЕТОВ */
+    .answers-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      width: 100%;
+      max-width: 620px;
+    }
+    @media (max-width: 600px) {
+      .answers-grid { grid-template-columns: 1fr; }
+      .korean-display { font-size: 2.2rem; }
+    }
+
+    .ans-btn {
+      background: #ffffff;
+      border: 2px solid #e2e8f0;
+      padding: 14px 18px;
+      border-radius: 14px;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .ans-btn:hover:not(:disabled) { border-color: var(--sj-blue); background: #f0f7ff; transform: translateY(-2px); }
+    .ans-btn.correct { background: #d1fae5 !important; border-color: #10b981 !important; color: #065f46 !important; }
+    .ans-btn.wrong { background: #fee2e2 !important; border-color: #ef4444 !important; color: #991b1b !important; }
+
+    .next-btn {
+      background: var(--sj-blue);
+      color: white;
+      border: none;
+      padding: 12px 34px;
+      border-radius: 14px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(0, 56, 147, 0.25);
+    }
+    .next-btn:hover { background: #002c73; }
+
+    /* КОНСТРУКТОР */
+    .constructor-area {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      width: 100%;
+      max-width: 560px;
+      align-items: center;
+    }
+    .target-slots {
+      min-height: 54px;
+      width: 100%;
+      background: #f1f5f9;
+      border: 2px dashed #94a3b8;
+      border-radius: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 6px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: var(--sj-blue);
+    }
+    .syllable-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+    }
+    .s-chip {
+      background: white;
+      border: 2px solid var(--sj-blue);
+      color: var(--sj-blue);
+      font-weight: 800;
+      font-size: 1.25rem;
+      padding: 8px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.04);
+      transition: transform 0.15s;
+    }
+    .s-chip:hover { transform: scale(1.05); }
+
+    /* ДУЭЛЬ */
+    .duel-arena {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      width: 100%;
+    }
+    .player-card {
+      border: 2px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .p-blue { background: #f0f7ff; border-color: #bfdbfe; }
+    .p-red { background: #fdf2f2; border-color: #fecdd3; }
+
+    /* МОДАЛЬНЫЕ ОКНА */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal-card {
+      background: white;
+      border-radius: 20px;
+      padding: 24px;
+      max-width: 520px;
+      width: 100%;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 10px;
+    }
+    .modal-close {
+      background: none; border: none; font-size: 1.3rem; cursor: pointer; color: #64748b;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Фон по вашему арту -->
+  <svg class="bg-illustration" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+    <path d="M-50,100 Q150,50 250,200 T100,450 Z" fill="rgba(248, 182, 45, 0.16)"/>
+    <path d="M850,-50 Q950,150 800,300 T750,550 Z" fill="rgba(89, 166, 71, 0.14)"/>
+    <path d="M400,400 Q600,350 700,550 T350,650 Z" fill="rgba(0, 56, 147, 0.10)"/>
+
+    <!-- Левый улыбающийся желтый карандаш -->
+    <g transform="translate(60, 60) rotate(-28)">
+      <rect x="0" y="20" width="36" height="85" rx="4" fill="#f8b62d"/>
+      <polygon points="0,105 36,105 18,135" fill="#fce5b5"/>
+      <polygon points="12,125 24,125 18,135" fill="#333"/>
+      <rect x="0" y="0" width="36" height="20" rx="6" fill="#f472b6"/>
+      <rect x="0" y="16" width="36" height="5" fill="#9ca3af"/>
+      <circle cx="12" cy="50" r="3" fill="#1f2937"/>
+      <circle cx="24" cy="50" r="3" fill="#1f2937"/>
+      <path d="M14,60 Q18,66 22,60" stroke="#1f2937" stroke-width="2" fill="none"/>
+      <ellipse cx="8" cy="55" rx="3" ry="1.5" fill="#f87171" opacity="0.6"/>
+      <ellipse cx="28" cy="55" rx="3" ry="1.5" fill="#f87171" opacity="0.6"/>
+    </g>
+
+    <!-- Правый улыбающийся желтый карандаш -->
+    <g transform="translate(860, 70) rotate(24)">
+      <rect x="0" y="20" width="36" height="85" rx="4" fill="#f8b62d"/>
+      <polygon points="0,105 36,105 18,135" fill="#fce5b5"/>
+      <polygon points="12,125 24,125 18,135" fill="#333"/>
+      <rect x="0" y="0" width="36" height="20" rx="6" fill="#f472b6"/>
+      <rect x="0" y="16" width="36" height="5" fill="#9ca3af"/>
+      <circle cx="12" cy="50" r="3" fill="#1f2937"/>
+      <circle cx="24" cy="50" r="3" fill="#1f2937"/>
+      <path d="M14,60 Q18,66 22,60" stroke="#1f2937" stroke-width="2" fill="none"/>
+      <ellipse cx="8" cy="55" rx="3" ry="1.5" fill="#f87171" opacity="0.6"/>
+      <ellipse cx="28" cy="55" rx="3" ry="1.5" fill="#f87171" opacity="0.6"/>
+    </g>
+
+    <!-- Тетрадь на спирали -->
+    <g transform="translate(80, 430) rotate(10)">
+      <rect x="0" y="0" width="90" height="110" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="3"/>
+      <line x1="15" y1="25" x2="75" y2="25" stroke="#93c5fd" stroke-width="2"/>
+      <line x1="15" y1="45" x2="75" y2="45" stroke="#93c5fd" stroke-width="2"/>
+      <line x1="15" y1="65" x2="75" y2="65" stroke="#93c5fd" stroke-width="2"/>
+      <line x1="15" y1="85" x2="75" y2="85" stroke="#93c5fd" stroke-width="2"/>
+      <circle cx="0" cy="20" r="4" fill="#475569"/>
+      <circle cx="0" cy="40" r="4" fill="#475569"/>
+      <circle cx="0" cy="60" r="4" fill="#475569"/>
+      <circle cx="0" cy="80" r="4" fill="#475569"/>
+    </g>
+  </svg>
+
+  <div class="app-container">
+    <!-- ШАПКА В ТОЧНОСТИ ПО СКРИНШОТУ -->
+    <header class="header-card">
+      <div class="header-left">
+        <div class="logo-badge">
+          <!-- Академический логотип Седжон -->
+          <svg viewBox="0 0 100 80" width="48" height="40">
+            <path d="M16,65 L40,15 L64,65" fill="none" stroke="#003893" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="82" cy="22" r="6" fill="#850020"/>
+            <line x1="72" y1="36" x2="92" y2="36" stroke="#850020" stroke-width="5" stroke-linecap="round"/>
+            <circle cx="82" cy="54" r="11" fill="none" stroke="#850020" stroke-width="5"/>
+          </svg>
+          <span style="font-size: 0.58rem; font-weight: 800; color: #003893; line-height: 1;">세종학당</span>
+          <span style="font-size: 0.42rem; font-weight: 700; color: #64748b; line-height: 1;">King Sejong Institute</span>
+        </div>
+
+        <div>
+          <div class="badge-top-row">
+            <span class="badge-pill-red">부하라2 • BUKHARA 2</span>
+            <span class="institute-sublabel">Институт Короля Седжона</span>
+          </div>
+          <h1 class="institute-title">Bukhara 2 King Sejong Institute</h1>
+          <p class="curriculum-desc">Учебный комплекс: Числа, Счёт, Время, Даты, Цены, Возраст и Телефоны</p>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <!-- Верхний ряд: Язык | Статистика | Подсказки -->
+        <div class="controls-row-top">
+          <div class="lang-capsule">
+            <button class="lang-chip active" onclick="setLanguage('ru', this)"><b>RU</b> RU</button>
+            <button class="lang-chip" onclick="setLanguage('uz', this)"><b>uz</b> UZ</button>
+            <button class="lang-chip" onclick="setLanguage('ko', this)"><b>KR</b> KO</button>
+          </div>
+
+          <span class="stat-sep">|</span>
+
+          <div class="stats-group">
+            <span>⭐ <span id="scoreVal">0</span></span>
+            <span>🔥 <span id="streakVal">0</span></span>
+            <span style="color: #003893;">🎯 <span id="accuracyVal">100%</span></span>
+          </div>
+
+          <span class="stat-sep">|</span>
+
+          <button class="btn-hints-pill" onclick="toggleHints()" id="btnHints">
+            💡 Подсказки: ВКЛ
+          </button>
+        </div>
+
+        <!-- Нижний ряд: Экзамен, Отчёт, Иконки -->
+        <div class="controls-row-bottom">
+          <button class="btn-pill-exam" onclick="openExamModal()">📝 Экзамен</button>
+          <button class="btn-pill-report" onclick="openReportModal()">📥 Отчёт</button>
+          <button class="icon-action-btn" onclick="triggerBgUpload()" title="Загрузить свой фон">🖼️</button>
+          <button class="icon-action-btn" onclick="openLeaderboard()" title="Таблица лидеров">🏆</button>
+          <button class="icon-action-btn" onclick="speakCurrent()" title="Озвучить текущее задание">🔊</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- 7 МОДУЛЕЙ -->
+    <nav class="modules-nav">
+      <button class="mod-tab active" onclick="setModule('numbers', this)">🔢 Числа (1–100)</button>
+      <button class="mod-tab" onclick="setModule('counters', this)">🏷️ Счётные слова</button>
+      <button class="mod-tab" onclick="setModule('time', this)">⏰ Время и часы</button>
+      <button class="mod-tab" onclick="setModule('dates', this)">📅 Календарь и даты</button>
+      <button class="mod-tab" onclick="setModule('prices', this)">🛍️ Цены и воны (₩)</button>
+      <button class="mod-tab" onclick="setModule('age', this)">🎂 Возраст и порядок</button>
+      <button class="mod-tab" onclick="setModule('phones', this)">📞 Телефоны и автобусы</button>
+    </nav>
+
+    <!-- 4 РЕЖИМА -->
+    <div class="formats-bar">
+      <div class="formats-group">
+        <button class="fmt-btn active" onclick="setFormat('quiz', this)">Тест (4)</button>
+        <button class="fmt-btn" onclick="setFormat('audio', this)">🎧 Аудирование</button>
+        <button class="fmt-btn" onclick="setFormat('constructor', this)">🧩 Конструктор</button>
+        <button class="fmt-btn" onclick="setFormat('duel', this)">👥 Дуэль 2P</button>
+      </div>
+    </div>
+
+    <!-- КАРТОЧКА ТРЕНАЖЕРА -->
+    <main class="quiz-card">
+      <div class="question-prompt" id="questionPrompt">Выберите верное значение:</div>
+
+      <!-- ЧАСЫ СО СТРЕЛКАМИ (ОТВЕТ СТРОГО СКРЫТ ДО КЛИКА) -->
+      <div id="clockContainer" style="display: none;">
+        <div class="analog-clock">
+          <div class="clock-center"></div>
+          <div class="clock-hand hand-hour" id="hourHand"></div>
+          <div class="clock-hand hand-minute" id="minuteHand"></div>
+        </div>
+      </div>
+
+      <div class="korean-display" id="koreanArea">
+        <span id="koreanTarget">일</span>
+        <button class="audio-btn" onclick="speakCurrent()" title="Озвучить">🔊</button>
+      </div>
+
+      <div class="hint-container" id="hintBox">
+        <span id="hintTranscription">[Иль] — 1</span>
+      </div>
+
+      <!-- Конструктор слова -->
+      <div class="constructor-area" id="constructorArea" style="display: none;">
+        <div class="target-slots" id="assembledWord">...</div>
+        <div class="syllable-chips" id="availableChips"></div>
+      </div>
+
+      <!-- Стандартная сетка 4 вариантов -->
+      <div class="answers-grid" id="answersGrid">
+        <button class="ans-btn" onclick="handleAnswer(0)"></button>
+        <button class="ans-btn" onclick="handleAnswer(1)"></button>
+        <button class="ans-btn" onclick="handleAnswer(2)"></button>
+        <button class="ans-btn" onclick="handleAnswer(3)"></button>
+      </div>
+
+      <!-- Дуэль для двоих -->
+      <div class="duel-arena" id="duelArena" style="display: none;">
+        <div class="player-card p-blue">
+          <div style="font-weight: 800; color: #003893;">Игрок 1 (Синие): <span id="p1Score">0</span></div>
+          <div class="answers-grid" id="p1Grid" style="grid-template-columns: 1fr;"></div>
+        </div>
+        <div class="player-card p-red">
+          <div style="font-weight: 800; color: #991b1b;">Игрок 2 (Красные): <span id="p2Score">0</span></div>
+          <div class="answers-grid" id="p2Grid" style="grid-template-columns: 1fr;"></div>
+        </div>
+      </div>
+
+      <button class="next-btn" id="nextBtn" onclick="nextQuestion()">
+        <span id="lblNext">Следующий вопрос</span> ➔
+      </button>
+    </main>
+  </div>
+
+  <!-- Модальное окно экзамена -->
+  <div class="modal-overlay" id="examModal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3 style="color: var(--sj-blue);">Контрольный экзамен Седжон</h3>
+        <button class="modal-close" onclick="closeModal('examModal')">✕</button>
+      </div>
+      <p style="font-size: 0.9rem; color: #475569;">Экзамен проверяет знания без подсказок. В конце выставляется академическая оценка (A+, A, B, C, F) и формируется ведомость.</p>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn-pill-exam" style="flex:1; justify-content:center; padding: 10px;" onclick="startExam(10)">Экзамен (10)</button>
+        <button class="btn-pill-exam" style="flex:1; justify-content:center; padding: 10px;" onclick="startExam(20)">Экзамен (20)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно отчета -->
+  <div class="modal-overlay" id="reportModal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3 style="color: var(--sj-blue);">Академический отчёт студента</h3>
+        <button class="modal-close" onclick="closeModal('reportModal')">✕</button>
+      </div>
+      <div>
+        <label style="font-size: 0.85rem; font-weight: bold;">Имя студента:</label>
+        <input type="text" id="studentNameInput" value="Студент Bukhara 2" style="width: 100%; padding: 8px; margin: 6px 0 12px; border: 1px solid #cbd5e1; border-radius: 8px;">
+        <p style="font-size: 0.9rem;">Институт: <b>Bukhara 2 King Sejong Institute (부하라2 세종학당)</b></p>
+        <p style="font-size: 0.9rem; margin-top: 4px;">Набрано баллов: <b id="repScoreText">0</b> | Точность: <b id="repAccText">100%</b></p>
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn-pill-report" style="flex:1; justify-content:center; padding: 10px;" onclick="window.print()">🖨️ Печать сертификата</button>
+        <button class="btn-pill-report" style="flex:1; justify-content:center; padding: 10px;" onclick="exportCSV()">📊 Скачать CSV</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно таблицы лидеров -->
+  <div class="modal-overlay" id="leaderboardModal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3 style="color: #ca8a04;">🏆 Топ студентов курса Bukhara 2</h3>
+        <button class="modal-close" onclick="closeModal('leaderboardModal')">✕</button>
+      </div>
+      <div style="font-size: 0.95rem; line-height: 1.8;">
+        <div>🥇 <b>1. Азизбек</b> — 450 баллов (100%)</div>
+        <div>🥈 <b>2. Шахзода</b> — 410 баллов (98%)</div>
+        <div>🥉 <b>3. Малика</b> — 390 баллов (95%)</div>
+        <div>⭐ <b>Текущий результат:</b> <span id="leadCurrentScore">0</span> баллов</div>
+      </div>
+    </div>
+  </div>
+
+  <input type="file" id="bgUploader" accept="image/*" style="display: none;" onchange="handleBgFile(this)">
+
+  <script>
+    // РАСШИРЕННАЯ БАЗА ДАННЫХ
+    const SINO = [
+      {k:"일", r:"Иль", val:1}, {k:"이", r:"И", val:2}, {k:"삼", r:"Сам", val:3},
+      {k:"사", r:"Са", val:4}, {k:"오", r:"О", val:5}, {k:"육", r:"Юк", val:6},
+      {k:"칠", r:"Чхиль", val:7}, {k:"팔", r:"Пхаль", val:8}, {k:"구", r:"Ку", val:9},
+      {k:"십", r:"Сип", val:10}, {k:"이십", r:"Исип", val:20}, {k:"삼십", r:"Самсип", val:30},
+      {k:"사십", r:"Сасип", val:40}, {k:"오십", r:"Осип", val:50}, {k:"백", r:"Пэк", val:100}
+    ];
+
+    const NATIVE = [
+      {k:"하나", r:"Хана", val:1}, {k:"둘", r:"Туль", val:2}, {k:"셋", r:"Сет", val:3},
+      {k:"넷", r:"Нет", val:4}, {k:"다섯", r:"Тасот", val:5}, {k:"여섯", r:"Ёсот", val:6},
+      {k:"일곱", r:"Ильгоп", val:7}, {k:"여덟", r:"Ёдоль", val:8}, {k:"아홉", r:"Ахоп", val:9},
+      {k:"열", r:"Йоль", val:10}, {k:"스물", r:"Сымуль", val:20}, {k:"서른", r:"Сорын", val:30}
+    ];
+
+    const COUNTERS = [
+      {q:"사과 1 [шт.]", k:"한 개", r:"Хан гэ", a:["한 개", "하나 개", "일 개", "두 개"]},
+      {q:"학생 2 [чел.]", k:"두 명", r:"Ту мён", a:["두 명", "둘 명", "이 명", "세 명"]},
+      {q:"책 3 [книги]", k:"세 권", r:"Се гвон", a:["세 권", "셋 권", "삼 권", "네 권"]},
+      {q:"물 4 [бутылки]", k:"네 병", r:"Не бён", a:["네 병", "넷 병", "사 병", "한 병"]},
+      {q:"커피 1 [чашка]", k:"한 잔", r:"Хан джан", a:["한 잔", "하나 잔", "일 잔", "두 잔"]},
+      {q:"고양이 2 [животные]", k:"두 마리", r:"Ту мари", a:["두 마리", "둘 마리", "이 마리", "세 마리"]},
+      {q:"종이 5 [листов]", k:"다섯 장", r:"Тасот чан", a:["다섯 장", "오 장", "다섯 개", "네 장"]},
+      {q:"차 1 [машина]", k:"한 대", r:"Хан дэ", a:["한 대", "하나 대", "일 대", "두 대"]}
+    ];
+
+    const DATES = [
+      {k:"유월", r:"Юволь (Июнь - искл.!)", a:["Июнь (6-й месяц)", "Июль (7-й месяц)", "Май (5-й месяц)", "Август (8-й месяц)"]},
+      {k:"시월", r:"Сиволь (Октябрь - искл.!)", a:["Октябрь (10-й месяц)", "Ноябрь (11-й месяц)", "Сентябрь (9-й месяц)", "Декабрь (12-й месяц)"]},
+      {k:"일월", r:"Ироль (Январь)", a:["Январь (1-й месяц)", "Февраль (2-й месяц)", "Март (3-й месяц)", "Апрель (4-й месяц)"]},
+      {k:"오월", r:"Оволь (Май)", a:["Май (5-й месяц)", "Март (3-й месяц)", "Июнь (6-й месяц)", "Апрель (4-й месяц)"]},
+      {k:"월요일", r:"Вориёиль", a:["Понедельник", "Вторник", "Среда", "Воскресенье"]},
+      {k:"화요일", r:"Хваёиль", a:["Вторник", "Четверг", "Пятница", "Понедельник"]},
+      {k:"수요일", r:"Суёиль", a:["Среда", "Четверг", "Вторник", "Суббота"]},
+      {k:"금요일", r:"Кымиёиль", a:["Пятница", "Суббота", "Четверг", "Понедельник"]},
+      {k:"1월 1일 (신정)", r:"Ироль ириль", a:["1 января (Новый год)", "11 января", "1 февраля", "1 декабря"]},
+      {k:"3월 1일 (삼일절)", r:"Самораль ириль", a:["1 марта (Движение 1 марта)", "3 января", "1 мая", "3 марта"]},
+      {k:"5월 5일 (어린이날)", r:"Оволь оиль", a:["5 мая (День детей)", "15 мая", "5 июня", "25 декабря"]},
+      {k:"8월 15일 (광복절)", r:"Пароль сибиоиль", a:["15 августа (День освобождения)", "15 июля", "5 августа", "25 августа"]},
+      {k:"10월 9일 (한글날)", r:"Сиволь куиль", a:["9 октября (День хангыля)", "19 октября", "9 сентября", "10 ноября"]},
+      {k:"2026년", r:"Ичхонисибъюнгнён", a:["2026 год", "2025 год", "2024 год", "2027 год"]}
+    ];
+
+    const PRICES = [
+      {k:"오백 원", r:"Обек вон", a:["500원", "50원", "5,000원", "50,000원"]},
+      {k:"천 원", r:"Чхон вон", a:["1,000원", "100원", "10,000원", "500원"]},
+      {k:"천이백 원 (지하철)", r:"Чхонибэк вон", a:["1,200원", "12,000원", "1,020원", "2,100원"]},
+      {k:"사천오백 원 (아메리카노)", r:"Сачхонобэк вон", a:["4,500원", "45,000원", "4,050원", "5,400원"]},
+      {k:"팔천 원 (라면/김밥)", r:"Пхальчхон вон", a:["8,000원", "80,000원", "800원", "18,000원"]},
+      {k:"만 원", r:"Ман вон", a:["10,000원", "1,000원", "100,000원", "20,000원"]},
+      {k:"만 오천 원 (치킨)", r:"Ман очхон вон", a:["15,000원", "51,000원", "1,500원", "150,000원"]},
+      {k:"삼만 팔천 원", r:"Самман пхальчхон вон", a:["38,000원", "3,800원", "83,000원", "380,000원"]},
+      {k:"오만 원", r:"Оман вон", a:["50,000원", "5,000원", "500,000원", "15,000원"]},
+      {k:"팔만 오천 원 (운동화)", r:"Пхальман очхон вон", a:["85,000원", "8,500원", "58,000원", "850,000원"]},
+      {k:"백만 원", r:"Пэнман вон", a:["1,000,000원", "100,000원", "10,000,000원", "500,000원"]},
+      {k:"백이십만 원 (노트북)", r:"Пэгисимман вон", a:["1,200,000원", "120,000원", "1,020,000원", "2,100,000원"]}
+    ];
+
+    const AGES = [
+      {k:"한 살", r:"Хан саль", a:["1 год", "2 года", "10 лет", "21 год"]},
+      {k:"다섯 살", r:"Тасот саль", a:["5 лет", "6 лет", "15 лет", "4 года"]},
+      {k:"열 살", r:"Йоль саль", a:["10 лет", "1 год", "20 лет", "12 лет"]},
+      {k:"열여덟 살", r:"Йольёдоль саль", a:["18 лет", "19 лет", "28 лет", "8 лет"]},
+      {k:"스무 살 (исключение!)", r:"Сыму саль", a:["20 лет", "21 год", "2 года", "30 лет"]},
+      {k:"스물한 살", r:"Сымульхан саль", a:["21 год", "20 лет", "31 год", "12 лет"]},
+      {k:"스물다섯 살", r:"Сымультасот саль", a:["25 лет", "24 года", "35 лет", "52 года"]},
+      {k:"서른 살", r:"Сорын саль", a:["30 лет", "20 лет", "40 лет", "13 лет"]},
+      {k:"마흔 살", r:"Махын саль", a:["40 лет", "30 лет", "50 лет", "14 лет"]},
+      {k:"쉰 살", r:"Свин саль", a:["50 лет", "40 лет", "60 лет", "15 лет"]},
+      {k:"첫 번째", r:"Чхот пончче", a:["1-й (первый)", "2-й (второй)", "3-й (третий)", "последний"]},
+      {k:"두 번째", r:"Ту пончче", a:["2-й (второй)", "1-й (первый)", "3-й (третий)", "4-й (четвертый)"]},
+      {k:"세 번째", r:"Се пончче", a:["3-й (третий)", "2-й (второй)", "4-й (четвертый)", "1-й (первый)"]},
+      {k:"마지막", r:"Маджимак", a:["Последний", "Первый", "Второй", "Третий"]}
+    ];
+
+    const PHONES = [
+      {k:"공일공 (010)", r:"Кон-иль-гон", a:["010", "011", "070", "02"]},
+      {k:"공이 (02 - 서울)", r:"Кон-и", a:["02 (Сеул)", "031", "051", "010"]},
+      {k:"공삼일 (031 - 경기도)", r:"Кон-сам-иль", a:["031 (Кёнгидо)", "02", "042", "064"]},
+      {k:"일일이 (112 - 경찰)", r:"Иль-иль-и", a:["112 (Полиция)", "119 (Скорая)", "114 (Справка)", "120"]},
+      {k:"일일구 (119 - 구급차)", r:"Иль-иль-гу", a:["119 (Пожарные/Скорая)", "112 (Полиция)", "114", "911"]},
+      {k:"일 번 버스", r:"Иль бон босы", a:["Автобус №1", "Автобус №11", "Автобус №2", "Автобус №10"]},
+      {k:"삼 번 버스", r:"Сам бон босы", a:["Автобус №3", "Автобус №30", "Автобус №13", "Автобус №2"]},
+      {k:"백사십삼 번 (143번)", r:"Пэксасипсам бон", a:["Автобус №143", "Автобус №134", "Автобус №14", "Автобус №43"]},
+      {k:"천 번 버스 (1000번)", r:"Чхон бон босы", a:["Автобус №1000", "Автобус №100", "Автобус №10", "Автобус №10000"]}
+    ];
+
+    // СОСТОЯНИЕ
+    let currentModule = 'numbers';
+    let currentFormat = 'quiz';
+    let showHints = true;
+    let score = 0;
+    let streak = 0;
+    let totalAnswers = 0;
+    let correctAnswers = 0;
+    let currentQuestion = null;
+    let constructorInput = [];
+    let p1Points = 0, p2Points = 0;
+
+    function setModule(mod, el) {
+      currentModule = mod;
+      document.querySelectorAll('.mod-tab').forEach(b => b.classList.remove('active'));
+      if (el) el.classList.add('active');
+      nextQuestion();
+    }
+
+    function setFormat(fmt, el) {
+      currentFormat = fmt;
+      document.querySelectorAll('.fmt-btn').forEach(b => b.classList.remove('active'));
+      if (el) el.classList.add('active');
+      nextQuestion();
+    }
+
+    function toggleHints() {
+      showHints = !showHints;
+      document.getElementById('btnHints').innerText = showHints ? '💡 Подсказки: ВКЛ' : '💡 Подсказки: ВЫКЛ';
+      document.getElementById('hintBox').style.visibility = showHints ? 'visible' : 'hidden';
+    }
+
+    function setLanguage(lang, el) {
+      document.querySelectorAll('.lang-chip').forEach(b => b.classList.remove('active'));
+      if (el) el.classList.add('active');
+      const nx = document.getElementById('lblNext');
+      if (lang === 'uz') {
+        nx.innerText = "Keyingi savol";
+      } else if (lang === 'ko') {
+        nx.innerText = "다음 문제";
+      } else {
+        nx.innerText = "Следующий вопрос";
+      }
+    }
+
+    function nextQuestion() {
+      try {
+        document.getElementById('nextBtn').style.display = 'none';
+        const ansButtons = document.querySelectorAll('#answersGrid .ans-btn');
+        ansButtons.forEach(b => {
+          b.className = 'ans-btn';
+          b.disabled = false;
+        });
+
+        document.getElementById('clockContainer').style.display = 'none';
+        document.getElementById('constructorArea').style.display = 'none';
+        document.getElementById('answersGrid').style.display = 'grid';
+        document.getElementById('duelArena').style.display = 'none';
+
+        if (currentModule === 'numbers') {
+          const list = Math.random() > 0.5 ? SINO : NATIVE;
+          const item = list[Math.floor(Math.random() * list.length)];
+          const distractors = list.filter(x => x.val !== item.val).sort(() => 0.5 - Math.random()).slice(0, 3);
+          const options = [item, ...distractors].sort(() => 0.5 - Math.random());
+          currentQuestion = {
+            target: item.k,
+            hint: `[${item.r}] — ${item.val}`,
+            correct: item.val.toString(),
+            options: options.map(o => o.val.toString())
+          };
+        } 
+        else if (currentModule === 'time') {
+          document.getElementById('clockContainer').style.display = 'block';
+          const h = Math.floor(Math.random() * 12) + 1;
+          const m = [0, 15, 30, 45][Math.floor(Math.random() * 4)];
+          
+          const mDeg = m * 6;
+          const hDeg = (h % 12) * 30 + (m * 0.5);
+          document.getElementById('hourHand').style.transform = `rotate(${hDeg}deg)`;
+          document.getElementById('minuteHand').style.transform = `rotate(${mDeg}deg)`;
+
+          const hoursK = ["", "한", "두", "세", "네", "다섯", "여섯", "일곱", "여덟", "아홉", "열", "열한", "열두"];
+          const correctText = m === 0 ? `${hoursK[h]} 시` : (m === 30 ? `${hoursK[h]} 시 반` : `${hoursK[h]} 시 ${m}분`);
+
+          currentQuestion = {
+            target: "몇 시예요?", // СТРОГО ВОПРОС ПОД ЧАСАМИ!
+            hint: "Часы: исконно корейские, минуты: китайско-корейские",
+            correct: correctText,
+            options: [
+              correctText,
+              `${hoursK[h % 12 + 1]} 시`,
+              `${hoursK[h]} 시 10분`,
+              `${hoursK[h > 1 ? h - 1 : 12]} 시 반`
+            ].sort(() => 0.5 - Math.random())
+          };
+        }
+        else if (currentModule === 'counters') {
+          const item = COUNTERS[Math.floor(Math.random() * COUNTERS.length)];
+          currentQuestion = {
+            target: item.q,
+            hint: `[${item.r}]`,
+            correct: item.k,
+            options: [...item.a].sort(() => 0.5 - Math.random())
+          };
+        }
+        else if (currentModule === 'dates') {
+          const item = DATES[Math.floor(Math.random() * DATES.length)];
+          currentQuestion = {
+            target: item.k,
+            hint: `[${item.r}]`,
+            correct: item.a[0],
+            options: [...item.a].sort(() => 0.5 - Math.random())
+          };
+        }
+        else if (currentModule === 'prices') {
+          const item = PRICES[Math.floor(Math.random() * PRICES.length)];
+          currentQuestion = {
+            target: item.k,
+            hint: `[${item.r}]`,
+            correct: item.a[0],
+            options: [...item.a].sort(() => 0.5 - Math.random())
+          };
+        }
+        else if (currentModule === 'age') {
+          const item = AGES[Math.floor(Math.random() * AGES.length)];
+          currentQuestion = {
+            target: item.k,
+            hint: `[${item.r}]`,
+            correct: item.a[0],
+            options: [...item.a].sort(() => 0.5 - Math.random())
+          };
+        }
+        else {
+          const item = PHONES[Math.floor(Math.random() * PHONES.length)];
+          currentQuestion = {
+            target: item.k,
+            hint: `[${item.r}]`,
+            correct: item.a[0],
+            options: [...item.a].sort(() => 0.5 - Math.random())
+          };
+        }
+
+        renderCard();
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function renderCard() {
+      if (!currentQuestion) return;
+
+      if (currentFormat === 'audio') {
+        document.getElementById('koreanTarget').innerText = "🎧 [Слушайте звук]";
+        speakCurrent();
+      } else {
+        document.getElementById('koreanTarget').innerText = currentQuestion.target;
+      }
+
+      document.getElementById('hintTranscription').innerText = currentQuestion.hint;
+      document.getElementById('hintBox').style.visibility = showHints ? 'visible' : 'hidden';
+
+      if (currentFormat === 'constructor') {
+        document.getElementById('answersGrid').style.display = 'none';
+        document.getElementById('constructorArea').style.display = 'flex';
+        setupConstructor(currentQuestion.correct);
+      } else if (currentFormat === 'duel') {
+        document.getElementById('answersGrid').style.display = 'none';
+        document.getElementById('duelArena').style.display = 'grid';
+        setupDuel();
+      } else {
+        const buttons = document.querySelectorAll('#answersGrid .ans-btn');
+        currentQuestion.options.forEach((opt, idx) => {
+          if (buttons[idx]) buttons[idx].innerText = opt;
+        });
+      }
+    }
+
+    function handleAnswer(idx) {
+      const buttons = document.querySelectorAll('#answersGrid .ans-btn');
+      if (!buttons[idx]) return;
+      const selected = buttons[idx].innerText;
+      buttons.forEach(b => b.disabled = true);
+
+      totalAnswers++;
+      if (selected === currentQuestion.correct) {
+        buttons[idx].classList.add('correct');
+        score += 10;
+        streak++;
+        correctAnswers++;
+        speakText("정답입니다");
+      } else {
+        buttons[idx].classList.add('wrong');
+        streak = 0;
+        buttons.forEach(b => {
+          if (b.innerText === currentQuestion.correct) b.classList.add('correct');
+        });
+      }
+
+      // Обновление показателей в шапке
+      document.getElementById('scoreVal').innerText = score;
+      document.getElementById('streakVal').innerText = streak;
+      const acc = Math.round((correctAnswers / totalAnswers) * 100);
+      document.getElementById('accuracyVal').innerText = `${acc}%`;
+
+      if (currentModule === 'time') {
+        document.getElementById('koreanTarget').innerText = currentQuestion.correct;
+      }
+
+      document.getElementById('nextBtn').style.display = 'inline-flex';
+    }
+
+    // КОНСТРУКТОР
+    function setupConstructor(word) {
+      constructorInput = [];
+      document.getElementById('assembledWord').innerText = "Нажимайте на слоги...";
+      const syllables = word.split('').sort(() => 0.5 - Math.random());
+      const container = document.getElementById('availableChips');
+      container.innerHTML = '';
+      syllables.forEach(s => {
+        const btn = document.createElement('button');
+        btn.className = 's-chip';
+        btn.innerText = s;
+        btn.onclick = () => {
+          constructorInput.push(s);
+          document.getElementById('assembledWord').innerText = constructorInput.join('');
+          btn.style.display = 'none';
+          if (constructorInput.join('') === currentQuestion.correct) {
+            score += 10;
+            streak++;
+            correctAnswers++;
+            totalAnswers++;
+            document.getElementById('scoreVal').innerText = score;
+            document.getElementById('streakVal').innerText = streak;
+            speakText("참 잘했어요");
+            document.getElementById('nextBtn').style.display = 'inline-flex';
+          }
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    // ДУЭЛЬ
+    function setupDuel() {
+      const p1Box = document.getElementById('p1Grid');
+      const p2Box = document.getElementById('p2Grid');
+      p1Box.innerHTML = ''; p2Box.innerHTML = '';
+
+      currentQuestion.options.forEach(opt => {
+        const b1 = document.createElement('button');
+        b1.className = 'ans-btn';
+        b1.innerText = opt;
+        b1.onclick = () => handleDuelClick(1, opt);
+        p1Box.appendChild(b1);
+
+        const b2 = document.createElement('button');
+        b2.className = 'ans-btn';
+        b2.innerText = opt;
+        b2.onclick = () => handleDuelClick(2, opt);
+        p2Box.appendChild(b2);
+      });
+    }
+
+    function handleDuelClick(player, val) {
+      if (val === currentQuestion.correct) {
+        if (player === 1) p1Points += 10;
+        else p2Points += 10;
+        document.getElementById('p1Score').innerText = p1Points;
+        document.getElementById('p2Score').innerText = p2Points;
+        speakText("정답입니다");
+        nextQuestion();
+      } else {
+        alert(`Игрок ${player} выбрал неверный ответ!`);
+      }
+    }
+
+    // ОЗВУЧКА
+    function speakCurrent() {
+      const text = currentQuestion ? (currentModule === 'time' ? currentQuestion.correct : currentQuestion.target) : "안녕하세요";
+      speakText(text);
+    }
+
+    function speakText(text) {
+      try {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+          const utterance = new SpeechSynthesisUtterance(text);
+          utterance.lang = 'ko-KR';
+          utterance.rate = 0.85;
+          window.speechSynthesis.speak(utterance);
+        }
+      } catch (e) {
+        console.warn(e);
+      }
+    }
+
+    // МОДАЛЬНЫЕ ОКНА
+    function openExamModal() { document.getElementById('examModal').style.display = 'flex'; }
+    function openReportModal() { 
+      document.getElementById('repScoreText').innerText = score;
+      document.getElementById('repAccText').innerText = document.getElementById('accuracyVal').innerText;
+      document.getElementById('reportModal').style.display = 'flex'; 
+    }
+    function openLeaderboard() {
+      document.getElementById('leadCurrentScore').innerText = score;
+      document.getElementById('leaderboardModal').style.display = 'flex';
+    }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+    function startExam(count) {
+      closeModal('examModal');
+      showHints = false;
+      document.getElementById('btnHints').innerText = '💡 Подсказки: ВЫКЛ';
+      alert(`📝 Экзамен Седжон начался! Вам предстоит ответить на ${count} вопросов подряд. 화이팅!`);
+      score = 0; streak = 0; totalAnswers = 0; correctAnswers = 0;
+      document.getElementById('scoreVal').innerText = score;
+      nextQuestion();
+    }
+
+    function exportCSV() {
+      const name = document.getElementById('studentNameInput').value || "Студент";
+      const csv = `Студент,Институт,Баллы,Точность\n"${name}","Bukhara 2 King Sejong Institute",${score},${document.getElementById('accuracyVal').innerText}\n`;
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `sejong_report_${name}.csv`;
+      link.click();
+    }
+
+    function triggerBgUpload() { document.getElementById('bgUploader').click(); }
+    function handleBgFile(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.body.style.backgroundImage = `url('${e.target.result}')`;
+          document.body.style.backgroundSize = 'cover';
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    // Клавиша пробел для перехода
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Space' && document.getElementById('nextBtn').style.display !== 'none') {
+        e.preventDefault();
+        nextQuestion();
+      }
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      nextQuestion();
+    });
+  </script>
+</body>
+</html>
